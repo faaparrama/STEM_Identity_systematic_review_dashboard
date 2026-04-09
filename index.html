@@ -144,10 +144,7 @@
     .grid { grid-template-columns: 1fr; }
     .card.half { grid-column: span 1; }
   }
-  @media (max-width: 800px) {
-    .sidebar { display: none; }
-    .main { margin-left: 0; padding: 16px; }
-  }
+  /* mobile styles moved to bottom */
 
   /* ---- Scrollbar ---- */
   .sidebar::-webkit-scrollbar { width: 4px; }
@@ -237,9 +234,158 @@
     font-size: 12px; line-height: 1.5;
   }
   .detail-row .detail-label { font-weight: 600; color: #666; }
+
+  /* ---- Hero / Intro Section ---- */
+  .hero {
+    background: linear-gradient(135deg, #1a1f36 0%, #2d3561 50%, #4E79A7 100%);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    padding: 40px 36px 36px;
+    margin-bottom: 28px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(80px, -80px);
+  }
+  .hero h2 {
+    font-size: 22px; font-weight: 700; margin-bottom: 6px;
+    letter-spacing: -0.3px; line-height: 1.3;
+  }
+  .hero .hero-subtitle {
+    font-size: 13px; color: rgba(255,255,255,0.6);
+    margin-bottom: 18px; font-weight: 500;
+  }
+  .hero .hero-abstract {
+    font-size: 14px; line-height: 1.75; color: rgba(255,255,255,0.88);
+    max-width: 860px; margin-bottom: 28px;
+  }
+  .hero .hero-divider {
+    height: 1px; background: rgba(255,255,255,0.12);
+    margin: 0 0 24px; max-width: 860px;
+  }
+  .hero .section-guides {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px 20px;
+  }
+  .hero .section-guide {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 14px; border-radius: 8px;
+    background: rgba(255,255,255,0.06);
+    transition: background 0.15s;
+  }
+  .hero .section-guide:hover {
+    background: rgba(255,255,255,0.10);
+  }
+  .hero .section-guide .sg-icon {
+    font-size: 16px; margin-top: 1px; flex-shrink: 0;
+    width: 24px; text-align: center;
+  }
+  .hero .section-guide .sg-text h4 {
+    font-size: 12px; font-weight: 600; margin-bottom: 3px;
+    color: rgba(255,255,255,0.95); text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .hero .section-guide .sg-text p {
+    font-size: 11.5px; color: rgba(255,255,255,0.6);
+    line-height: 1.5; margin: 0;
+  }
+  .hero-toggle {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.8); font-size: 11.5px; font-weight: 600;
+    padding: 7px 14px; border-radius: 6px; cursor: pointer;
+    transition: all 0.15s; font-family: inherit; margin-top: 8px;
+  }
+  .hero-toggle:hover { background: rgba(255,255,255,0.16); color: #fff; }
+  .hero .section-guides.collapsed { display: none; }
+
+  /* ---- Mobile hamburger ---- */
+  .mobile-header {
+    display: none;
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 54px; background: var(--dark);
+    z-index: 200; align-items: center;
+    padding: 0 16px; gap: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .hamburger {
+    background: none; border: none; cursor: pointer;
+    display: flex; flex-direction: column; gap: 5px;
+    padding: 6px;
+  }
+  .hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: #a0a6c0; border-radius: 2px;
+    transition: all 0.25s ease;
+  }
+  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+  .mobile-header .mobile-title {
+    font-size: 14px; font-weight: 700; color: #fff;
+  }
+  .sidebar-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5); z-index: 99;
+  }
+
+  /* ---- Improved mobile responsive ---- */
+  @media (max-width: 800px) {
+    .mobile-header { display: flex; }
+    .sidebar {
+      display: flex; transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 150; top: 54px; height: calc(100vh - 54px);
+    }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-overlay.open { display: block; }
+    .main { margin-left: 0; padding: 70px 12px 40px; }
+    .kpi-row {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px; margin-bottom: 16px;
+    }
+    .kpi { padding: 14px 10px; }
+    .kpi .value { font-size: 18px; }
+    .kpi .label { font-size: 9px; }
+    .filter-bar { padding: 12px 14px; gap: 10px; flex-direction: column; align-items: stretch; }
+    .range-group { flex-wrap: wrap; justify-content: center; }
+    .range-group input[type=range] { width: 100%; }
+    .filter-bar .reset-btn { margin-left: 0; align-self: flex-end; }
+    .grid { gap: 14px; }
+    .card { padding: 8px 10px; }
+    .hero { padding: 28px 20px 24px; }
+    .hero h2 { font-size: 18px; }
+    .hero .hero-abstract { font-size: 13px; }
+    .hero .section-guides { grid-template-columns: 1fr; gap: 8px; }
+    .data-explorer { padding: 14px 12px; }
+    .de-controls { flex-direction: column; }
+    .de-controls input[type=text] { min-width: unset; }
+    .de-table { font-size: 11px; }
+  }
+  @media (max-width: 480px) {
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .hero .section-guide { padding: 8px 10px; }
+  }
 </style>
 </head>
 <body>
+
+<!-- Mobile header -->
+<div class="mobile-header">
+  <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+    <span></span><span></span><span></span>
+  </button>
+  <span class="mobile-title">STEM Identity Dashboard</span>
+</div>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 
 <nav class="sidebar">
   <div class="sidebar-header">
@@ -249,6 +395,7 @@
     <div class="subtitle">Visualization: Parra-Martinez, 2026</div>
   </div>
   <div class="nav-section">
+    <a href="#sec-intro" class="nav-link" data-section="intro">About This Study</a>
     <a href="#card-map" class="nav-link" data-section="map">Global Distribution</a><a href="#card-stream" class="nav-link" data-section="stream">Topic Evolution</a><a href="#card-accrual" class="nav-link" data-section="accrual">Citation Accrual</a><a href="#card-sankey" class="nav-link" data-section="sankey">Research Flow</a><a href="#card-cumulative" class="nav-link" data-section="cumulative">Cumulative Growth</a><a href="#card-bump" class="nav-link" data-section="bump">Topic Rankings</a><a href="#card-violin" class="nav-link" data-section="violin">Citation Distributions</a><a href="#card-geoflow" class="nav-link" data-section="geoflow">Geographic Flow</a><a href="#card-heatmap" class="nav-link" data-section="heatmap">Intensity Heatmap</a><a href="#card-scatter" class="nav-link" data-section="scatter">Identity Scatter</a><a href="#card-beeswarm" class="nav-link" data-section="beeswarm">Article Timeline</a><a href="#card-country" class="nav-link" data-section="country">Country Contributions</a><a href="#card-radar" class="nav-link" data-section="radar">Country Profiles</a><a href="#card-network" class="nav-link" data-section="network">Knowledge Network</a><a href="#card-alluvial" class="nav-link" data-section="alluvial">Temporal Alluvial</a><a href="#card-cooccurrence" class="nav-link" data-section="cooccurrence">Co-occurrence Matrix</a><a href="#card-multiples" class="nav-link" data-section="multiples">Growth Curves</a><a href="#card-performers" class="nav-link" data-section="performers">Top Overperformers</a><a href="#card-table" class="nav-link" data-section="table">Top Cited Articles</a>
     <a href="#card-explorer" class="nav-link" data-section="explorer" style="border-top:1px solid rgba(255,255,255,0.06); margin-top:8px; padding-top:14px; color:#d0d4e8; font-weight:600;">Dataset Explorer</a>
   </div>
@@ -260,6 +407,161 @@
 </nav>
 
 <div class="main">
+
+  <!-- Hero / Introduction -->
+  <div class="hero" id="sec-intro">
+    <h2>Mapping STEM Identity Research: A Bibliometric Analysis</h2>
+    <div class="hero-subtitle">Karatas, Parra-Martinez, &amp; Pereira, 2025</div>
+    <p class="hero-abstract">
+      This study presents a bibliometric analysis of STEM identity research based on peer-reviewed articles indexed in Web of Science and Scopus over the past three decades. We examined the field's productivity and key contributors (i.e., authors, journals, publications, countries, institutions), as well as its conceptual, intellectual, and social structures. We also traced the thematic evolution and highlighted future directions for the field. Findings reveal a consistent growth in STEM identity scholarship. However, collaboration across authors, institutions, and countries remains limited, and many marginalized groups are underrepresented in the research. By mapping the field's development, this analysis provides a strategic roadmap for advancing STEM identity research and underscores the importance of inclusive, interdisciplinary, and collaborative efforts.
+    </p>
+    <div class="hero-divider"></div>
+    <button class="hero-toggle" id="hero-toggle" aria-expanded="true">
+      <span id="hero-toggle-icon">&#9660;</span> Section Guide
+    </button>
+    <div class="section-guides" id="section-guides">
+      <div class="section-guide">
+        <div class="sg-icon">&#127758;</div>
+        <div class="sg-text">
+          <h4>Global Distribution</h4>
+          <p>Choropleth map showing the geographic spread of STEM identity publications, highlighting each country's contribution to the field.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#128200;</div>
+        <div class="sg-text">
+          <h4>Topic Evolution</h4>
+          <p>Streamgraph tracing how major research themes have emerged, grown, and shifted over the past three decades.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#128203;</div>
+        <div class="sg-text">
+          <h4>Citation Accrual</h4>
+          <p>Tracks how citations accumulate over time for seminal articles, revealing the lasting influence of foundational works.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#128256;</div>
+        <div class="sg-text">
+          <h4>Research Flow</h4>
+          <p>Sankey diagram mapping the connections between countries, journals, and research topics to illustrate knowledge flow patterns.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#128200;</div>
+        <div class="sg-text">
+          <h4>Cumulative Growth</h4>
+          <p>Visualizes the cumulative number of publications over time, revealing the accelerating pace of STEM identity research.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#127942;</div>
+        <div class="sg-text">
+          <h4>Topic Rankings</h4>
+          <p>Bump chart showing how the relative prominence of research topics has changed across different time periods.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#127931;</div>
+        <div class="sg-text">
+          <h4>Citation Distributions</h4>
+          <p>Violin plots comparing citation distributions across major research themes, revealing impact variability within each topic.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#128506;</div>
+        <div class="sg-text">
+          <h4>Geographic Flow</h4>
+          <p>Alluvial diagram showing how research output flows between geographic regions and thematic areas over time.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#128293;</div>
+        <div class="sg-text">
+          <h4>Intensity Heatmap</h4>
+          <p>Heatmap displaying publication intensity across years and topics, highlighting periods of concentrated research activity.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#128302;</div>
+        <div class="sg-text">
+          <h4>Identity Scatter</h4>
+          <p>Scatter plot positioning articles by year and citations, with topic-based coloring to reveal high-impact clusters.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#128197;</div>
+        <div class="sg-text">
+          <h4>Article Timeline</h4>
+          <p>Beeswarm plot showing individual articles distributed along a timeline, sized by citation count to spot influential works.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#127988;</div>
+        <div class="sg-text">
+          <h4>Country Contributions</h4>
+          <p>Bar chart comparing national research output by article count, revealing dominant contributors and emerging players.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#128205;</div>
+        <div class="sg-text">
+          <h4>Country Profiles</h4>
+          <p>Radar chart comparing thematic focus areas across leading countries, highlighting each nation's research priorities.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#128279;</div>
+        <div class="sg-text">
+          <h4>Knowledge Network</h4>
+          <p>Network visualization of keyword co-occurrences, revealing the conceptual structure and interconnections within the field.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#128336;</div>
+        <div class="sg-text">
+          <h4>Temporal Alluvial</h4>
+          <p>Alluvial diagram tracking how research themes merge, split, and evolve across successive time windows.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#128178;</div>
+        <div class="sg-text">
+          <h4>Co-occurrence Matrix</h4>
+          <p>Matrix showing how frequently research topics appear together, identifying common thematic pairings in the literature.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#128208;</div>
+        <div class="sg-text">
+          <h4>Growth Curves</h4>
+          <p>Small multiples displaying individual growth trajectories for each research topic, enabling side-by-side comparison.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#11088;</div>
+        <div class="sg-text">
+          <h4>Top Overperformers</h4>
+          <p>Highlights articles that received significantly more citations than expected, identifying surprise high-impact publications.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#128218;</div>
+        <div class="sg-text">
+          <h4>Top Cited Articles</h4>
+          <p>Ranked table of the most-cited articles in the dataset, providing quick access to the field's foundational literature.</p>
+        </div>
+      </div>
+      <div class="section-guide">
+        <div class="sg-icon">&#128269;</div>
+        <div class="sg-text">
+          <h4>Dataset Explorer</h4>
+          <p>Interactive, searchable table of all 906 articles with full metadata, filters, and CSV export for further analysis.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- KPI cards -->
   <div class="kpi-row">
@@ -591,6 +893,45 @@ navLinks.forEach(l => l.addEventListener('click', e => {
 
   // Initial render
   applyFilters();
+})();
+</script>
+
+<script>
+// ---- Mobile hamburger menu ----
+(function() {
+  const hamburger = document.getElementById('hamburger');
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+
+  function toggleMenu() {
+    hamburger.classList.toggle('active');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('open');
+  }
+  function closeMenu() {
+    hamburger.classList.remove('active');
+    sidebar.classList.remove('open');
+    overlay.classList.remove('open');
+  }
+
+  hamburger.addEventListener('click', toggleMenu);
+  overlay.addEventListener('click', closeMenu);
+
+  // Close menu when a nav link is clicked
+  document.querySelectorAll('.nav-link').forEach(function(link) {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // ---- Hero section guide toggle ----
+  var heroToggle = document.getElementById('hero-toggle');
+  var sectionGuides = document.getElementById('section-guides');
+  var toggleIcon = document.getElementById('hero-toggle-icon');
+
+  heroToggle.addEventListener('click', function() {
+    var collapsed = sectionGuides.classList.toggle('collapsed');
+    toggleIcon.innerHTML = collapsed ? '&#9654;' : '&#9660;';
+    heroToggle.setAttribute('aria-expanded', !collapsed);
+  });
 })();
 </script>
 
